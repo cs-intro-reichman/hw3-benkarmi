@@ -49,13 +49,37 @@ public class Algebra {
         return x1;
     }
 
-    // Returns x1 * x2  (assumes x2 >= 0 as in the tests)
+    // Returns x1 * x2  (now works for any signs)
     public static int times(int x1, int x2) {
-        int sumTimes = 0;
-        for (int i = 0; i < x2; i++) {
-            sumTimes = plus(sumTimes, x1);
+        if (x1 == 0 || x2 == 0) {
+            return 0;
         }
-        return sumTimes;
+
+        int result = 0;
+        boolean negative = false; 
+
+        // Make x1 non-negative and flip sign if needed
+        if (x1 < 0) {
+            x1 = minus(0, x1);
+            negative = !negative;
+        }
+
+        // Make x2 non-negative and flip sign if needed
+        if (x2 < 0) {
+            x2 = minus(0, x2);
+            negative = !negative;
+        }
+
+        // Repeated addition for |x1| * |x2|
+        for (int i = 0; i < x2; i++) {
+            result = plus(result, x1);
+        }
+
+        if (negative) {
+            result = minus(0, result);
+        }
+
+        return result;
     }
 
     // Returns x^n (for n >= 0)
@@ -67,33 +91,59 @@ public class Algebra {
         return result;
     }
 
-    // Returns the integer part of x1 / x2  (i.e., floor division)
+    // Returns the integer part of x1 / x2  (same as Java's /, trunc toward 0)
     public static int div(int x1, int x2) {
-        int countDiv = 0;
-        // repeatedly subtract x2 from x1 while we still can
-        while (x1 >= x2) {
-            x1 = minus(x1, x2);       // x1 = x1 - x2
-            countDiv = plus(countDiv, 1);  // countDiv++
+        if (x2 == 0) {
+            return 0;
         }
-        return countDiv;
-    }
 
-    // Returns x1 % x2
-    public static int mod(int x1, int x2) {
+        if (x1 == 0) {
+            return 0;
+        }
+
+        boolean negative = false;
+
+        // Work with absolute values, track sign
+        if (x1 < 0) {
+            x1 = minus(0, x1); 
+            negative = !negative;
+        }
+        if (x2 < 0) {
+            x2 = minus(0, x2); 
+            negative = !negative;
+        }
+
+        int quotient = 0;
         while (x1 >= x2) {
             x1 = minus(x1, x2);
+            quotient = plus(quotient, 1);
         }
-        return x1;
+
+        if (negative) {
+            quotient = minus(0, quotient);
+        }
+
+        return quotient;
+    }
+
+    // Returns x1 % x2  (same as Java's %, consistent with our div)
+    public static int mod(int x1, int x2) {
+        if (x2 == 0) {
+            return 0;
+        }
+        int q = div(x1, x2);          
+        
+        int prod = times(q, x2); 
+        int r = minus(x1, prod);
+        return r;
     }   
 
     // Returns the integer part (floor) of sqrt(x) 
     public static int sqrt(int x) {
         int i = 0;
-        // find the smallest i such that i^2 > x
         while (times(i, i) <= x) {
             i++;
         }
-        // step back one: (i-1)^2 <= x < i^2
         return minus(i, 1);
     }       
 }
