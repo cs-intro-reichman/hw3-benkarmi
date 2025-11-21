@@ -41,39 +41,41 @@ public class LoanCalc {
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
-		double payment = 0;
-		iterationCounter = 0;
+    	double payment = 0;
+    	iterationCounter = 0;
 
-		while (endBalance(loan, rate, n, payment) > 0) {
-		payment += epsilon;
-		iterationCounter++;
-		}
-		return payment;
+   		 while (endBalance(loan, rate, n, payment) > 0) {
+    	    payment += epsilon;
+    	    iterationCounter++;
     }
+    return payment;
+}
+
     
     // Uses bisection search to compute an approximation of the periodical payment 
 	// that will bring the ending balance of a loan close to 0.
 	// Given: the sum of the loan, the periodical interest rate (as a percentage),
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
-    public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
-		double low = 0;
-		double high = loan;
-		iterationCounter = 0;
-		while ((high - low) > epsilon) {
-			double mid = (low + high) / 2;
-			double fMid = endBalance(loan, rate, n, mid);
-			double fLow = endBalance(loan, rate, n, low);
-			if (Math.abs(fMid) <= epsilon){
-				return mid;
-			}
-			if (fMid * fLow < 0) {
-				high = mid;
-			} else {
-				low = mid;
-			}
-			iterationCounter++;
-		}
-		return (low + high) / 2;
+	public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
+    	double low = 0;
+	    double high = loan;
+    	iterationCounter = 0;
+
+   		 while ((high - low) > epsilon) {
+		    double mid = (low + high) / 2;
+    	    double fMid = endBalance(loan, rate, n, mid);
+        	double fLow = endBalance(loan, rate, n, low);
+
+      		  if (fMid * fLow < 0) {
+     	       high = mid;
+     	   } else {
+            low = mid;
+        }
+        iterationCounter++;
     }
+
+    return (low + high) / 2;
+}
+
 }

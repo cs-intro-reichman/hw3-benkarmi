@@ -20,48 +20,78 @@ public class Algebra {
    		System.out.println(mod(120,6));  // 120 % 6    
    		System.out.println(sqrt(36));
 		System.out.println(sqrt(263169));
-   		System.out.println(sqrt(76123));
+   		System.out.println(sqrt(100));
 	}  
 
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		while (x1 > 0) {
+			x2++;
+			x1--;
+		}
+		while (x1 < 0) {
+			x2--;
+			x1++;
+		}
+	return x2;
 	}
 
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		if (x2 != 0) {
+			while (x2 > 0 ) {
+				x1--;
+				x2--;
+			}
+			while (x2 < 0 ) {
+				x1++;
+				x2++;
+			}
+		}
+		return x1;
 	}
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		int sumTimes = 0;
+		for (int i = 0; i<x2; i++) {
+			sumTimes = plus(sumTimes, x1);
+		}
+	return sumTimes;
 	}
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
-		// Replace the following statement with your code
-		return 0;
+		int result = 1;
+		for (int i = 0; i < n; i++) {
+			result = times(result, x);
+		}
+	return result;
 	}
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		int countDiv = 0;
+		for (int i = 0; i < x1; i = plus(i, x2)) {
+			countDiv = plus(countDiv, 1);
+		}
+	return countDiv;
 	}
 
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		while (x1 >= x2) {
+			x1 = minus(x1, x2);
+		}
+		return x1;
 	}	
 
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
-		// Replace the following statement with your code
-		return 0;
+		int i = 0;
+		while (times(i, i) < x) {
+			i++;
+		}
+	return i;
 	}	  	  
 }
